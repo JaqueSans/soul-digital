@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "soul-digital-fc3f1": {
+      "hosting": {
+        "soul-digital": [
+          "soul-digital-fc3f1"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "soul-digital-fc3f1"
+  }
+}
