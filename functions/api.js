@@ -2,6 +2,7 @@ const admin = require("firebase-admin");
 const express = require("express");
 const api = express();
 const cors = require("cors");
+const { default: axios } = require("axios");
 
 
 //middleware -> está entre a requisição
@@ -115,6 +116,27 @@ api.delete("/admin/:uid", onlySuper, async (req, res) => {
     } catch (err) {
         res.status(500).json({ success: false, error: err });
     }
+});
+
+const token = require("./twitter-token");
+// /api/twitter/elonmusk
+api.get("/twitter/:username", (req, res) => {
+    const { username } = req.params;
+    const url = `https://api.twitter.com/2/users/by/username/${username}?user.fields=created_at,description,id,name,profile_image_url,protected,public_metrics,username,verified`;
+
+    axios.get(url, {
+        headers: {
+            authorization: `Bearer <token>`,
+        },
+    }).then((response) => {
+        if(response.data.errors){
+            res.status(404).json(data.errors);
+        }else{
+            res.json(response.data.data);
+        }
+    }).catch((err) => {
+        res.status(500).json({});
+    });
 });
 
 module.exports = { api }; // export api;
